@@ -398,7 +398,7 @@
             <a class="brand" href="https://medlav.app" style="text-decoration: none;">MEDLAV.APP</a>
             <div class="nav-links">
                 <a href="#architettura">DOCS</a>
-                <a href="https://github.com/medlav/residency_portfolio" target="_blank" class="github-icon">
+                <a href="https://github.com/medlav/gestionale_a3" target="_blank" class="github-icon">
                     <svg height="20" viewBox="0 0 16 16" width="20" fill="currentColor">
                         <path
                             d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
@@ -430,7 +430,7 @@
         </p>
 
         <div class="btn-group">
-            <a href="https://github.com/medlav/residency_portfolio" class="btn btn-primary">
+            <a href="https://github.com/medlav/gestionale_a3" class="btn btn-primary">
                 SOURCE_CODE (GPL)
             </a>
             <a href="#architettura" class="btn btn-secondary">
@@ -447,7 +447,7 @@
                     <div class="dot"></div>
                     <div class="dot"></div>
                 </div>
-                <div class="mock-body">DASHBOARD_AZIENDA.dart</div>
+                <div class="mock-body">aziende_list_view.dart</div>
             </div>
             <div class="mock-window">
                 <div class="mock-header">
@@ -455,7 +455,7 @@
                     <div class="dot"></div>
                     <div class="dot"></div>
                 </div>
-                <div class="mock-body">CARTELLA_SANITARIA_ENGINE.xml</div>
+                <div class="mock-body">convertitore_xml_3b.dart</div>
             </div>
             <div class="mock-window">
                 <div class="mock-header">
@@ -463,7 +463,7 @@
                     <div class="dot"></div>
                     <div class="dot"></div>
                 </div>
-                <div class="mock-body">VISITA_MEDICA_UI.flutter</div>
+                <div class="mock-body">visita_form.dart</div>
             </div>
             <div class="mock-window">
                 <div class="mock-header">
@@ -471,7 +471,23 @@
                     <div class="dot"></div>
                     <div class="dot"></div>
                 </div>
-                <div class="mock-body">LOGICA_CALCOLO_3B.dart</div>
+                <div class="mock-body">calcolatore_3b.dart</div>
+            </div>
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">aziende_list_view.dart</div>
+            </div>
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">convertitore_xml_3b.dart</div>
             </div>
         </div>
     </section>
@@ -480,7 +496,7 @@
         <div class="caution-box reveal">
             <h3 style="font-family:var(--font-heading); margin-bottom:10px;">!!! ATTENZIONE</h3>
             <p style="font-family:var(--font-mono); font-size:0.9rem;">
-                Software in stato pre-alpha. L'architettura è soggetta a modifiche radicali.
+                Software in stato PRE-ALPHA. L'architettura è soggetta a modifiche radicali.
                 Utilizzare esclusivamente per test e ricerca.
             </p>
         </div>
@@ -489,17 +505,17 @@
             <div class="step-number">01</div>
             <div class="guide-text">
                 <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">UNITÀ LOCALI & AZIENDA</h2>
-                <p>Configurazione del contesto lavorativo. Definizione dei codici INAIL, posizioni assicurative e
-                    partizioni delle unità produttive necessarie per la corretta geolocalizzazione dei flussi 3B.</p>
+                <p>Configurazione del contesto lavorativo. Definizione dei codici INAIL e settori ATECO necessari per la
+                    geolocalizzazione dei flussi 3B.</p>
                 <pre>
-// views/setup/company_view.dart
-void createCompany() {
-  final company = Company(
+// views/azienda_form.dart
+void createAzienda() {
+  final azienda = Azienda(
     denominazione: 'MedLav Corp S.r.l.',
     codiceIdentificativo: 'ASL_01_9923',
-    settoreATECO: '86.21', // Servizi medici
+    settoreATECO: '86.21',
   );
-  db.insertCompany(company);
+  db.insertAzienda(azienda);
 }
                 </pre>
             </div>
@@ -509,16 +525,15 @@ void createCompany() {
             <div class="step-number">02</div>
             <div class="guide-text">
                 <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">ANAGRAFICA & MANSIONI</h2>
-                <p>Inserimento dei dati sensibili e associazione del lavoratore ai protocolli sanitari specifici. Il
-                    sistema verifica la correttezza formale del Codice Fiscale per prevenire errori di invio
-                    ministeriale.</p>
+                <p>Gestione dati sensibili e associazione ai protocolli sanitari. Validazione Codice Fiscale integrata
+                    per export puliti.</p>
                 <pre>
-// views/worker/worker_form.dart
-final worker = Lavoratore(
+// views/lavoratore_form.dart
+final lavoratore = Lavoratore(
   nome: 'Mario',
   cognome: 'Rossi',
   codiceFiscale: 'RSSMRA80A01H501U',
-  mansioneSpecifica: 'Movimentazione Carichi',
+  mansione: 'Movimentazione Carichi',
 );
                 </pre>
             </div>
@@ -528,14 +543,13 @@ final worker = Lavoratore(
             <div class="step-number">03</div>
             <div class="guide-text">
                 <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">VISITA & GIUDIZIO</h2>
-                <p>Esecuzione della sorveglianza sanitaria. Gestione degli accertamenti integrativi e salvataggio locale
-                    del Giudizio di Idoneità (Allegato 3A). Il dato viene crittografato prima della scrittura su disco.
-                </p>
+                <p>Esecuzione della sorveglianza sanitaria. Generazione automatica del Giudizio di Idoneità conforme
+                    Allegato 3A.</p>
                 <pre>
-// logic/health_visit_engine.dart
-Future&lt;void&gt; saveVisit() async {
+// views/visita_form.dart
+Future&lt;void&gt; saveVisita() async {
   await db.saveMedicalRecord(
-    tipoVisita: TipoVisita.periodica,
+    tipo: 'Periodica',
     esito: 'Idoneo',
     scadenza: DateTime.now().add(Duration(days: 365)),
   );
@@ -548,14 +562,14 @@ Future&lt;void&gt; saveVisit() async {
             <div class="step-number">04</div>
             <div class="guide-text">
                 <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">EXPORT MINISTERIALE</h2>
-                <p>Generazione automatica dell'Allegato 3B. Il motore aggrega i dati anonimi di tutte le visite
-                    effettuate nell'anno solare e produce il file XML pronto per l'upload sul portale INAIL.</p>
+                <p>Motore di aggregazione per l'Allegato 3B. Generazione XML standardizzato per l'upload immediato sul
+                    portale INAIL.</p>
                 <pre>
-// engine/xml_exporter.dart
+// data/convertitore_xml_3b.dart
 void exportAllegato3B() {
-  final xmlData = xmlEngine.build3B(year: 2025);
-  fileSystem.saveFile('export_3B_2025.xml', xmlData);
-  print('COMPLIANCE_CHECK: PASSED');
+  final xmlData = xmlEngine.build3B(anno: 2026);
+  fileSystem.saveFile('export_3B_2026.xml', xmlData);
+  print('INAIL_COMPLIANCE: OK');
 }
                 </pre>
             </div>
