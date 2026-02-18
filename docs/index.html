@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GESTIONALE A3 | Medlav.app</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            /* Palette Tecnica - Light */
+            --color-white: #ffffff;
+            --color-light-gray: #f5f5f5;
+            --color-medium-gray: #888888;
+            --color-dark-gray: #333333;
+            --color-black: #000000;
+            --color-accent-red: #dc2626;
+
+            --color-background: var(--color-white);
+            --color-surface: var(--color-light-gray);
+            --color-text-primary: var(--color-black);
+            --color-text-secondary: var(--color-dark-gray);
+            --color-text-muted: var(--color-medium-gray);
+            --color-border: var(--color-dark-gray);
+            --color-accent: var(--color-accent-red);
+
+            /* Tipografia System-Based per massima velocità */
+            --font-heading: 'Impact', 'Arial Black', sans-serif;
+            --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+
+            --nav-height: 80px;
+        }
+
+        [data-theme="dark"] {
+            --color-background: #0a0a0a;
+            --color-surface: #1a1a1a;
+            --color-text-primary: #f5f5f5;
+            --color-text-secondary: #b8b8b8;
+            --color-text-muted: #888888;
+            --color-border: #333333;
+            --color-accent: #ff3333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-background);
+            color: var(--color-text-primary);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: var(--color-background);
+            border-bottom: 4px solid var(--color-accent);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--color-accent);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a,
+        .theme-toggle {
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: 0.2s;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .nav-links a:hover,
+        .theme-toggle:hover {
+            color: var(--color-accent);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 160px 20px 80px;
+            text-align: center;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .sub-header {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--color-accent);
+            letter-spacing: 3px;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 10vw, 6.5rem);
+            color: var(--color-text-primary);
+            text-transform: uppercase;
+            line-height: 0.85;
+            margin-bottom: 1.5rem;
+        }
+
+        .normativa-tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 2.5rem;
+        }
+
+        .tag {
+            border: 1px solid var(--color-border);
+            padding: 4px 12px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--color-text-muted);
+        }
+
+        .hero-p {
+            max-width: 750px;
+            margin: 0 auto 3rem;
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+
+        /* --- BUTTONS (Brutalism Style) --- */
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 18px 36px;
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 3px solid var(--color-text-primary);
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: var(--color-text-primary);
+            color: var(--color-background);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text-primary);
+        }
+
+        .btn:hover {
+            transform: translate(-5px, -5px);
+            box-shadow: 8px 8px 0 var(--color-accent);
+        }
+
+        /* --- MARQUEE / MOCKUP --- */
+        .marquee-container {
+            background: var(--color-surface);
+            padding: 60px 0;
+            border-bottom: 1px solid var(--color-border);
+            overflow: hidden;
+        }
+
+        .marquee-content {
+            display: flex;
+            width: max-content;
+            gap: 30px;
+            animation: scroll 60s linear infinite;
+        }
+
+        .mock-window {
+            width: 450px;
+            height: 300px;
+            background: var(--color-background);
+            border: 2px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mock-header {
+            height: 25px;
+            border-bottom: 1px solid var(--color-border);
+            background: var(--color-surface);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 5px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-border);
+        }
+
+        .mock-body {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* --- CONTENT SECTIONS --- */
+        .guide-container {
+            max-width: 1100px;
+            margin: 100px auto;
+            padding: 0 2rem;
+        }
+
+        .caution-box {
+            border-left: 8px solid var(--color-accent);
+            padding: 30px;
+            margin-bottom: 80px;
+            background: var(--color-surface);
+        }
+
+        .guide-step {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 40px;
+            margin-bottom: 120px;
+        }
+
+        .step-number {
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            color: var(--color-accent);
+            line-height: 0.8;
+            opacity: 0.4;
+        }
+
+        pre {
+            font-family: var(--font-mono);
+            background: #000;
+            color: #0f0;
+            padding: 25px;
+            border: 1px solid var(--color-border);
+            margin-top: 25px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .footer {
+            background: var(--color-black);
+            color: var(--color-white);
+            padding: 80px 20px;
+            text-align: center;
+            border-top: 10px solid var(--color-accent);
+        }
+
+        /* --- INDUSTRIAL CODE BLOCKS (PRE) --- */
+        pre {
+            font-family: var(--font-mono);
+            background: #000000;
+            /* Nero assoluto */
+            color: #ffffff;
+            /* Bianco puro per il codice */
+            padding: 30px;
+            border: 1px solid var(--color-border);
+            border-left: 5px solid var(--color-accent);
+            /* Accento rosso laterale */
+            margin-top: 25px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            position: relative;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
+            /* Ombra brutale */
+        }
+
+        /* Effetto Scanline opzionale per un look retro-tech */
+        pre::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        /* Evidenziazione sintassi personalizzata per il tema Red/Black/White */
+        pre code {
+            color: #ffffff;
+        }
+
+        /* Commenti in Rosso Accento */
+        pre .comment {
+            color: var(--color-accent);
+            opacity: 0.8;
+            font-style: italic;
+        }
+
+        /* Stringhe o Keyword in Grigio Chiaro per contrasto */
+        pre .keyword {
+            color: var(--color-light-gray);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .guide-step {
+                grid-template-columns: 1fr;
+            }
+
+            .step-number {
+                font-size: 3rem;
+            }
+
+            .nav-links a:not(.github-icon) {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body data-theme="dark">
+
+    <nav class="navbar">
+        <div class="nav-content">
+            <a class="brand" href="https://medlav.app" style="text-decoration: none;">MEDLAV.APP</a>
+            <div class="nav-links">
+                <a href="#architettura">DOCS</a>
+                <a href="https://github.com/medlav/residency_portfolio" target="_blank" class="github-icon">
+                    <svg height="20" viewBox="0 0 16 16" width="20" fill="currentColor">
+                        <path
+                            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                        </path>
+                    </svg>
+                </a>
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">
+                    [ LIGHT_MODE ]
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="sub-header">BUILD_IN_PUBLIC // EXPERIMENTAL</div>
+        <h1>GESTIONALE <span style="color:var(--color-accent)">A3</span></h1>
+
+        <div class="normativa-tags">
+            <span class="tag">ALLEGATO 3A</span>
+            <span class="tag">ALLEGATO 3B</span>
+            <span class="tag">D.LGS 81/08</span>
+            <span class="tag">TESTO UNICO</span>
+        </div>
+
+        <p class="hero-p">
+            Un tentativo di gestionale "local-first" per la Medicina del Lavoro.
+            Formattazione dati compatibile per l'invio degli Allegati 3B all' INAIL con
+            standardizzazione della cartella sanitaria digitale (Allegato 3A).
+        </p>
+
+        <div class="btn-group">
+            <a href="https://github.com/medlav/residency_portfolio" class="btn btn-primary">
+                SOURCE_CODE (GPL)
+            </a>
+            <a href="#architettura" class="btn btn-secondary">
+                DOCUMENTAZIONE
+            </a>
+        </div>
+    </header>
+
+    <section class="marquee-container">
+        <div class="marquee-content">
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">DASHBOARD_AZIENDA.dart</div>
+            </div>
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">CARTELLA_SANITARIA_ENGINE.xml</div>
+            </div>
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">VISITA_MEDICA_UI.flutter</div>
+            </div>
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">LOGICA_CALCOLO_3B.dart</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="guide-container">
+        <div class="caution-box reveal">
+            <h3 style="font-family:var(--font-heading); margin-bottom:10px;">!!! ATTENZIONE</h3>
+            <p style="font-family:var(--font-mono); font-size:0.9rem;">
+                Software in stato pre-alpha. L'architettura è soggetta a modifiche radicali.
+                Utilizzare esclusivamente per test e ricerca.
+            </p>
+        </div>
+
+        <section id="architettura" class="guide-step reveal">
+            <div class="step-number">01</div>
+            <div class="guide-text">
+                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">UNITÀ LOCALI & AZIENDA</h2>
+                <p>Configurazione del contesto lavorativo. Definizione dei codici INAIL, posizioni assicurative e
+                    partizioni delle unità produttive necessarie per la corretta geolocalizzazione dei flussi 3B.</p>
+                <pre>
+// views/setup/company_view.dart
+void createCompany() {
+  final company = Company(
+    denominazione: 'MedLav Corp S.r.l.',
+    codiceIdentificativo: 'ASL_01_9923',
+    settoreATECO: '86.21', // Servizi medici
+  );
+  db.insertCompany(company);
+}
+                </pre>
+            </div>
+        </section>
+
+        <section class="guide-step reveal">
+            <div class="step-number">02</div>
+            <div class="guide-text">
+                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">ANAGRAFICA & MANSIONI</h2>
+                <p>Inserimento dei dati sensibili e associazione del lavoratore ai protocolli sanitari specifici. Il
+                    sistema verifica la correttezza formale del Codice Fiscale per prevenire errori di invio
+                    ministeriale.</p>
+                <pre>
+// views/worker/worker_form.dart
+final worker = Lavoratore(
+  nome: 'Mario',
+  cognome: 'Rossi',
+  codiceFiscale: 'RSSMRA80A01H501U',
+  mansioneSpecifica: 'Movimentazione Carichi',
+);
+                </pre>
+            </div>
+        </section>
+
+        <section class="guide-step reveal">
+            <div class="step-number">03</div>
+            <div class="guide-text">
+                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">VISITA & GIUDIZIO</h2>
+                <p>Esecuzione della sorveglianza sanitaria. Gestione degli accertamenti integrativi e salvataggio locale
+                    del Giudizio di Idoneità (Allegato 3A). Il dato viene crittografato prima della scrittura su disco.
+                </p>
+                <pre>
+// logic/health_visit_engine.dart
+Future&lt;void&gt; saveVisit() async {
+  await db.saveMedicalRecord(
+    tipoVisita: TipoVisita.periodica,
+    esito: 'Idoneo',
+    scadenza: DateTime.now().add(Duration(days: 365)),
+  );
+}
+                </pre>
+            </div>
+        </section>
+
+        <section class="guide-step reveal">
+            <div class="step-number">04</div>
+            <div class="guide-text">
+                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">EXPORT MINISTERIALE</h2>
+                <p>Generazione automatica dell'Allegato 3B. Il motore aggrega i dati anonimi di tutte le visite
+                    effettuate nell'anno solare e produce il file XML pronto per l'upload sul portale INAIL.</p>
+                <pre>
+// engine/xml_exporter.dart
+void exportAllegato3B() {
+  final xmlData = xmlEngine.build3B(year: 2025);
+  fileSystem.saveFile('export_3B_2025.xml', xmlData);
+  print('COMPLIANCE_CHECK: PASSED');
+}
+                </pre>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p style="letter-spacing: 2px;">© 2026 MEDLAV.APP | MEDICINA DEL LAVORO DIGITALE</p>
+        <div style="margin-top:20px; font-family:var(--font-mono); font-size:0.7rem; opacity:0.6;">
+            Sviluppato con Flutter | Local-First Architecture | Licenza GPL-v2
+        </div>
+    </footer>
+
+    <script>
+        // Gestione Cambio Tema
+        function toggleTheme() {
+            const body = document.body;
+            const btn = document.getElementById('themeBtn');
+            if (body.hasAttribute('data-theme')) {
+                body.removeAttribute('data-theme');
+                btn.innerText = '[ DARK_MODE ]';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                btn.innerText = '[ LIGHT_MODE ]';
+            }
+        }
+
+        // Observer per animazioni Reveal al passaggio
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Smooth Scroll per i link interni
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
