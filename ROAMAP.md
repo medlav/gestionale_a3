@@ -23,4 +23,3 @@ Sviluppo verso la versione 0.1.0. Obiettivo: conformità legale e stabilità del
 * **Compliance 81/08:** Generazione file XML pronti per l'invio telematico senza interventi manuali.
 * **Stabilità Operativa:** Software testato, senza bug bloccanti nell'inserimento dati.
 
----
