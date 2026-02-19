@@ -668,22 +668,22 @@
                 Utilizzare esclusivamente per test e ricerca.
             </p>
         </div>
-
         <section id="architettura" class="guide-step reveal">
             <div class="step-number">01</div>
             <div class="guide-text">
-                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">UNITÀ LOCALI & AZIENDA</h2>
-                <p>Configurazione del contesto lavorativo. Definizione dei codici INAIL e settori ATECO necessari per la
-                    geolocalizzazione dei flussi 3B.</p>
+                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">CORE & DATABASE (DRIFT)</h2>
+                <p>Definizione dello schema relazionale per l'archiviazione conforme agli Allegati 3A e 3B. Gestione
+                    automatizzata di Unità Produttive e Codici ATECO.</p>
                 <pre>
-// views/azienda_form.dart
-void createAzienda() {
-  final azienda = Azienda(
-    denominazione: 'MedLav Corp S.r.l.',
-    codiceIdentificativo: 'ASL_01_9923',
-    settoreATECO: '86.21',
-  );
-  db.insertAzienda(azienda);
+// data/database.dart
+@DataClassName('Azienda')
+class Aziende extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get ragioneSociale => text()();
+  TextColumn get codiceAteco => text()();
+  // Dati occupazionali aggregati (3B)
+  IntColumn get occupati3112Maschi => integer().withDefault(const Constant(0))();
+  IntColumn get occupati3112Femmine => integer().withDefault(const Constant(0))();
 }
                 </pre>
             </div>
@@ -692,17 +692,19 @@ void createAzienda() {
         <section class="guide-step reveal">
             <div class="step-number">02</div>
             <div class="guide-text">
-                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">ANAGRAFICA & MANSIONI</h2>
-                <p>Gestione dati sensibili e associazione ai protocolli sanitari. Validazione Codice Fiscale integrata
-                    per export puliti.</p>
+                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">CONFIGURAZIONE MEDICO</h2>
+                <p>Centralizzazione dei dati del Medico Competente e gestione degli asset per la firma digitale nei PDF
+                    dei Giudizi di Idoneità.</p>
                 <pre>
-// views/lavoratore_form.dart
-final lavoratore = Lavoratore(
-  nome: 'Mario',
-  cognome: 'Rossi',
-  codiceFiscale: 'RSSMRA80A01H501U',
-  mansione: 'Movimentazione Carichi',
-);
+// config_medico.dart
+class ConfigMedico {
+  static const String nome = "NOME";
+  static const String codiceFiscale = "CFMEDICO12345678";
+  static const String email = "medico@competente.it";
+
+  // Asset firma per export PDF
+  static const String pathFirma = "assets/images/firma.png";
+}
                 </pre>
             </div>
         </section>
@@ -710,17 +712,19 @@ final lavoratore = Lavoratore(
         <section class="guide-step reveal">
             <div class="step-number">03</div>
             <div class="guide-text">
-                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">VISITA & GIUDIZIO</h2>
-                <p>Esecuzione della sorveglianza sanitaria. Generazione automatica del Giudizio di Idoneità conforme
-                    Allegato 3A.</p>
+                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">SORVEGLIANZA SANITARIA</h2>
+                <p>Tracking completo dei rischi (MMC, VDT, Rumore) e dei dati clinici necessari per la generazione
+                    automatica dell'Allegato 3A.</p>
                 <pre>
-// views/visita_form.dart
-Future&lt;void&gt; saveVisita() async {
-  await db.saveMedicalRecord(
-    tipo: 'Periodica',
-    esito: 'Idoneo',
-    scadenza: DateTime.now().add(Duration(days: 365)),
-  );
+// data/database.dart (Table: Visite)
+@DataClassName('Visita')
+class Visite extends Table {
+  IntColumn get lavoratoreId => integer().references(Lavoratori, #id)();
+  DateTimeColumn get dataVisita => dateTime()();
+  // ALLEGATO 3B - Rischi per Aggregazione
+  BoolColumn get rMmc => boolean().withDefault(const Constant(false))();
+  BoolColumn get rRumore => boolean().withDefault(const Constant(false))();
+  IntColumn get giudizioIdoneita => integer()();
 }
                 </pre>
             </div>
@@ -729,15 +733,20 @@ Future&lt;void&gt; saveVisita() async {
         <section class="guide-step reveal">
             <div class="step-number">04</div>
             <div class="guide-text">
-                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">EXPORT MINISTERIALE</h2>
-                <p>Motore di aggregazione per l'Allegato 3B. Generazione XML standardizzato per l'upload immediato sul
-                    portale INAIL.</p>
+                <h2 style="font-family:var(--font-heading); font-size: 2.5rem;">INAIL XML ENGINE</h2>
+                <p>Motore di conversione per la generazione del file XML Allegato 3B. Trasformazione dei dati aggregati
+                    nel formato conforme alle specifiche tecniche INAIL.</p>
                 <pre>
 // data/convertitore_xml_3b.dart
-void exportAllegato3B() {
-  final xmlData = xmlEngine.build3B(anno: 2026);
-  fileSystem.saveFile('export_3B_2026.xml', xmlData);
-  print('INAIL_COMPLIANCE: OK');
+String generaXmlInail(Map&lt;String, dynamic&gt; dati) {
+  final builder = XmlBuilder();
+  builder.processing('xml', 'version="1.0" encoding="UTF-8"');
+  builder.element('ComunicazioneAllegato3B', nest: () {
+    builder.element('AnnoRiferimento', nest: dati['anno'].toString());
+    final Azienda az = dati['azienda'];
+    builder.element('DatiAzienda', nest: az.ragioneSociale);
+  });
+  return builder.buildDocument().toString();
 }
                 </pre>
             </div>
