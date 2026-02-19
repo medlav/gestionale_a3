@@ -73,7 +73,7 @@ class _AziendeListViewState extends State<AziendeListView> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          _isSelectionMode ? '${_selectedIds.length} SELEZIONATE' : 'AZIENDA',
+          _isSelectionMode ? '${_selectedIds.length} SELEZIONATE' : 'AZIENDE',
         ),
         actions: [
           if (_isSelectionMode)
