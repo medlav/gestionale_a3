@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="assets/logo.png">
+    <link rel="apple-touch-icon" href="assets/logo.png">
     <title>GESTIONALE A3 | Medlav.app</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
@@ -80,6 +82,14 @@
             justify-content: space-between;
             align-items: center;
         }
+
+        .github-icon {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            line-height: 0;
+        }
+
 
         .brand {
             font-family: var(--font-heading);
@@ -208,13 +218,15 @@
             padding: 60px 0;
             border-bottom: 1px solid var(--color-border);
             overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
         }
 
         .marquee-content {
             display: flex;
             width: max-content;
             gap: 30px;
-            animation: scroll 60s linear infinite;
+            animation: scroll 90s linear infinite;
         }
 
         .mock-window {
@@ -289,18 +301,7 @@
             font-size: 5rem;
             color: var(--color-accent);
             line-height: 0.8;
-            opacity: 0.4;
-        }
-
-        pre {
-            font-family: var(--font-mono);
-            background: #000;
-            color: #0f0;
-            padding: 25px;
-            border: 1px solid var(--color-border);
-            margin-top: 25px;
-            overflow-x: auto;
-            font-size: 0.9rem;
+            opacity: 0.9;
         }
 
         .reveal {
@@ -322,27 +323,22 @@
             border-top: 10px solid var(--color-accent);
         }
 
-        /* --- INDUSTRIAL CODE BLOCKS (PRE) --- */
+
         pre {
             font-family: var(--font-mono);
-            background: #000000;
-            /* Nero assoluto */
-            color: #ffffff;
-            /* Bianco puro per il codice */
+            background: var(--color-surface);
+            color: var(--color-text-secondary);
             padding: 30px;
             border: 1px solid var(--color-border);
             border-left: 5px solid var(--color-accent);
-            /* Accento rosso laterale */
             margin-top: 25px;
             overflow-x: auto;
             font-size: 0.85rem;
             line-height: 1.5;
             position: relative;
             box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.1);
-            /* Ombra brutale */
         }
 
-        /* Effetto Scanline opzionale per un look retro-tech */
         pre::before {
             content: "";
             position: absolute;
@@ -375,6 +371,24 @@
             text-transform: uppercase;
         }
 
+
+        .app-shot {
+            width: auto;
+            height: 400px;
+
+            border: 2px solid var(--color-border);
+            background: var(--color-background);
+            object-fit: contain;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+
+        .app-shot:hover {
+            transform: scale(1.02);
+            box-shadow: 10px 10px 0px var(--color-accent);
+            z-index: 10;
+        }
+
         @media (max-width: 768px) {
             .guide-step {
                 grid-template-columns: 1fr;
@@ -387,6 +401,90 @@
             .nav-links a:not(.github-icon) {
                 display: none;
             }
+
+            .guide-container {
+                padding: 0 1.5rem;
+            }
+
+            pre {
+                max-width: calc(100vw - 3rem);
+                padding: 15px;
+                font-size: 0.75rem;
+            }
+
+
+            .app-shot,
+            .mock-window {
+                height: 250px;
+            }
+
+            .mock-window {
+                width: 320px;
+            }
+
+            .marquee-container {
+                padding: 20px 0;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .nav-content {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                gap: 0.75rem;
+            }
+
+            .brand {
+                font-family: var(--font-heading);
+                font-size: 1 rem;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--color-accent);
+            }
+
+            /* Mobile Theme Toggle Text Fix */
+            .theme-toggle {
+                font-size: 0 !important;
+                padding: 4px 4px;
+                align-items: center;
+            }
+
+            body:not([data-theme="dark"]) .theme-toggle::after {
+                content: "[ D ]";
+                font-size: 0.85rem;
+            }
+
+            body[data-theme="dark"] .theme-toggle::after {
+                content: "[ L ]";
+                font-size: 0.85rem;
+            }
+
+
+            .app-shot,
+            .mock-window {
+                height: 200px;
+            }
+
+            .mock-window {
+                width: 280px;
+            }
+
+            .marquee-container {
+                padding: 10px 0;
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -439,6 +537,27 @@
         </div>
     </header>
 
+
+    <section class="marquee-container">
+        <div class="marquee-content" id="marquee">
+            <img src="assets/screenshots/homepage.png" class="app-shot">
+            <img src="assets/screenshots/aziende_list.png" class="app-shot">
+            <img src="assets/screenshots/azienda_form_full.png" class="app-shot">
+            <img src="assets/screenshots/lavoratori_list.png" class="app-shot">
+            <img src="assets/screenshots/lavoratore_form_filled.png" class="app-shot">
+            <img src="assets/screenshots/visite_form_giudizio_filled.png" class="app-shot">
+            <img src="assets/screenshots/view_3b_filled.png" class="app-shot">
+
+            <img src="assets/screenshots/homepage.png" class="app-shot">
+            <img src="assets/screenshots/aziende_list.png" class="app-shot">
+            <img src="assets/screenshots/azienda_form_full.png" class="app-shot">
+            <img src="assets/screenshots/lavoratori_list.png" class="app-shot">
+            <img src="assets/screenshots/lavoratore_form_filled.png" class="app-shot">
+            <img src="assets/screenshots/visite_form_giudizio_filled.png" class="app-shot">
+            <img src="assets/screenshots/view_3b_filled.png" class="app-shot">
+        </div>
+    </section>
+
     <section class="marquee-container">
         <div class="marquee-content">
             <div class="mock-window">
@@ -489,7 +608,56 @@
                 </div>
                 <div class="mock-body">convertitore_xml_3b.dart</div>
             </div>
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">aziende_list_view.dart</div>
+            </div>
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">convertitore_xml_3b.dart</div>
+            </div>
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">visita_form.dart</div>
+            </div>
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">calcolatore_3b.dart</div>
+            </div>
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">aziende_list_view.dart</div>
+            </div>
+            <div class="mock-window">
+                <div class="mock-header">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+                <div class="mock-body">convertitore_xml_3b.dart</div>
+            </div>
         </div>
+
     </section>
 
     <div class="guide-container">
