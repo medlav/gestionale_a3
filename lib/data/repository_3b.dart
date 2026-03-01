@@ -5,7 +5,8 @@
 
 import 'package:drift/drift.dart';
 import 'package:gestionale_a3/data/database.dart';
-import 'package:gestionale_a3/data/config.dart';
+import 'package:gestionale_a3/providers/config_provider.dart'
+    show ConfigProvider;
 
 class Repository3B {
   final AppDatabase db;
@@ -174,13 +175,15 @@ class Repository3B {
       checkRischio(v.rRiproduzione, 'rRiproduzione');
     }
 
+    final medico = ConfigProvider.instance.medico;
+
     return {
       'anno': anno,
       'medico': {
-        'cognome': ConfigMedico.cognome,
-        'nome': ConfigMedico.nome,
-        'cf': ConfigMedico.codiceFiscale,
-        'email': ConfigMedico.email,
+        'cognome': medico.cognome,
+        'nome': medico.nome,
+        'cf': medico.codiceFiscale,
+        'email': medico.email,
       },
       'azienda': azienda,
       'malattie': {

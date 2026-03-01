@@ -9,6 +9,7 @@ import 'package:gestionale_a3/views/lavoratore_form.dart' show LavoratoriForm;
 import 'package:gestionale_a3/views/lavoratori_list_view.dart'
     show LavoratoriListView;
 import 'package:gestionale_a3/views/cartelle_list_view.dart';
+import 'package:gestionale_a3/views/settings_view.dart' show SettingsView;
 import 'package:gestionale_a3/views/view_3b.dart';
 import 'package:gestionale_a3/views/aziende_list_view.dart';
 import 'package:gestionale_a3/views/widgets/my_appbar.dart';
@@ -125,6 +126,15 @@ class HomePage extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const InfoView()),
+                  ),
+                ),
+                _MenuCard(
+                  title: 'Impostazioni',
+                  subtitle: 'Impostazioni Generali',
+                  icon: Icons.settings,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SettingsView()),
                   ),
                 ),
               ]),

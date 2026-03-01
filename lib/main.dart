@@ -4,6 +4,8 @@
 // main.dart
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:gestionale_a3/providers/config_provider.dart'
+    show ConfigProvider;
 import 'package:gestionale_a3/providers/theme_provider.dart' show ThemeProvider;
 import 'package:provider/provider.dart';
 import 'package:drift/drift.dart';
@@ -17,7 +19,7 @@ import 'package:gestionale_a3/views/homepage.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-
+  final configProvider = ConfigProvider();
   runApp(
     MultiProvider(
       providers: [
@@ -28,6 +30,7 @@ void main() {
         ChangeNotifierProvider<ThemeProvider>(
           create: (context) => ThemeProvider(),
         ),
+        ChangeNotifierProvider<ConfigProvider>.value(value: configProvider),
       ],
       child: const GestionaleA3(),
     ),
